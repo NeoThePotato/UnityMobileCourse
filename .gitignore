@@ -1,8 +1,13 @@
+# Unity
 Library
 Logs
-obj
 Temp
 UserSettings
+*.csproj
+*.sln
+
+# Visual Studio
 Build
-.vsconfig
+obj
 .vs
+.vsconfig
