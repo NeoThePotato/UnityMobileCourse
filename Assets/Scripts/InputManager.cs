@@ -1,23 +1,22 @@
-using UnityEngine;
-using System.Text;
-using TMPro;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+[RequireComponent(typeof(PlayerInput))]
+public class InputManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _debugTouchStateText;
+	[SerializeField] private Rigidbody2D _playerEntity;
+	private Vector2 _inputMovementVector = Vector2.zero;
 
-    void Update()
-    {
-        StringBuilder sb = new StringBuilder(100);
-        sb.Append($"Touches: {Input.touchCount}\n");
-        _debugTouchStateText.text = Input.touchCount.ToString();
-        
-        if (Input.touchCount > 0 )
-        {
-            foreach (var touch in Input.touches)
-                sb.Append($"{touch.fingerId}: {touch.position.x}, {touch.position.y}\n");
-        }
+	private void FixedUpdate()
+	{
+		_playerEntity.velocity = _inputMovementVector;
+	}
 
-        _debugTouchStateText.text = sb.ToString();
-    }
+	private void OnMove(InputValue value)
+	{
+		var vec = value.Get<Vector2>();
+		_inputMovementVector.x = vec.x;
+		_inputMovementVector.y = vec.y;
+		_playerEntity.velocity = _inputMovementVector;
+	}
 }
